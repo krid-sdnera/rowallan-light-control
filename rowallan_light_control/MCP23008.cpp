@@ -149,14 +149,14 @@ int MCP23008::readInputStatus(int input)
     {
         input += relayCount;
     }
-    int value = (1 << (input - 1));
-    if ((outputMap & value) == 0)
+    int inRangeBitmask = (1 << (input - 1));
+    int inputBitmask = (1 << (input - relayCount - 1));
+    if ((outputMap & inRangeBitmask) == 0)
     {
         return 256;
     }
     byte bankStatus = readAllInputs();
-    value = (1 << (input - relayCount - 1));
-    if (bankStatus & value)
+    if (bankStatus & inputBitmask)
     {
         return 0;
     }
