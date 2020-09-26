@@ -1,25 +1,25 @@
-#include "Button.h"
-Button::Button(byte _pin, int _edge) : pin(_pin), edgeDetection(_edge)
+#include "Sensor.h"
+Sensor::Sensor(byte _pin, int _edge) : pin(_pin), edgeDetection(_edge)
 {
 }
-Button::~Button() {}
+Sensor::~Sensor() {}
 
-void Button::update()
+void Sensor::update()
 {
-    // You can handle the debounce of the button directly
+    // You can handle the debounce of the sensor directly
     // in the class, so you don't have to think about it
     // elsewhere in your code
     byte newReading = getState();
     timeOfDepression = 0;
 
-    Serial.println("button update:raw status");
+    Serial.println("sensor update:raw status");
     Serial.println(newReading);
 
     if (newReading != lastReading)
     {
         lastDebounceTime = millis();
 
-        Serial.println("button update:changed");
+        Serial.println("sensor update:changed");
         Serial.println(lastDebounceTime);
     }
     if (newReading != state && millis() - lastDebounceTime > debounceDelay)
@@ -39,18 +39,18 @@ void Button::update()
             timeOfDepression = millis() - lastDepressedTime;
         }
 
-        Serial.println("button update:depression time");
+        Serial.println("sensor update:depression time");
         Serial.println(timeOfDepression);
     }
     lastReading = newReading;
 }
-bool Button::isPressed()
+bool Sensor::isPressed()
 {
     return isLongPressed(100);
 }
-bool Button::isLongPressed(int duration)
+bool Sensor::isLongPressed(int duration)
 {
-    if (edgeDetection == Button::EDGE_LEADING)
+    if (edgeDetection == Sensor::EDGE_LEADING)
     {
         return (state == DEPRESSED);
     }

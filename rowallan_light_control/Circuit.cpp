@@ -1,15 +1,15 @@
 #include "Circuit.h"
-#include "Button.h"
+#include "Sensor.h"
 #include "Light.h"
 #include "Timer.h"
 
-Circuit::Circuit(Button *b, Light *l, Timer *t, int _mode) : button(b), light(l), timer(t), mode(_mode) {}
+Circuit::Circuit(Sensor *b, Light *l, Timer *t, int _mode) : sensor(b), light(l), timer(t), mode(_mode) {}
 
 Circuit::~Circuit() {}
 
 void Circuit::init()
 {
-    button->init();
+    sensor->init();
     light->init();
     // timer->init();
 }
@@ -30,8 +30,8 @@ void Circuit::update()
         timerDuration = 10000;
     }
 
-    button->update();
-    if (button->isLongPressed(pressDuration))
+    sensor->update();
+    if (sensor->isLongPressed(pressDuration))
     {
         Serial.println("circuit update:pressed");
         if (mode == Circuit::MODE_TOGGLE)

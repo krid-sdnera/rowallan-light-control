@@ -1,7 +1,7 @@
-#ifndef Button_H
-#define Button_H
+#ifndef Sensor_H
+#define Sensor_H
 #include <Arduino.h>
-class Button
+class Sensor
 {
 
 protected:
@@ -19,8 +19,8 @@ public:
   static const int EDGE_LEADING = 1;
   static const int EDGE_TRAILING = 2;
 
-  Button(byte _pin, int _edge);
-  virtual ~Button();
+  Sensor(byte _pin, int _edge);
+  virtual ~Sensor();
   virtual void init() = 0;
   virtual byte getState() = 0;
   void update();
