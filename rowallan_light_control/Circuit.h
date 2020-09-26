@@ -13,9 +13,13 @@ private:
   Button *button;
   Light *light;
   Timer *timer;
+  int mode;
 
 public:
-  Circuit(Button *b, Light *l, Timer *t);
+  int MODE_TOGGLE = 1;
+  int MODE_ON = 2;
+
+  Circuit(Button *b, Light *l, Timer *t, int _mode);
   virtual ~Circuit();
   void init();
   void update();

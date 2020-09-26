@@ -1,5 +1,5 @@
 #include "Button.h"
-Button::Button(byte _pin) : pin(_pin)
+Button::Button(byte _pin, int _edge) : pin(_pin), edgeDetection(_edge)
 {
 }
 Button::~Button() {}
@@ -46,9 +46,16 @@ void Button::update()
 }
 bool Button::isPressed()
 {
-    return (timeOfDepression > 100);
+    return isLongPressed(100);
 }
 bool Button::isLongPressed(int duration)
 {
-    return (timeOfDepression > duration);
+    if (edgeDetection == Button::EDGE_LEADING)
+    {
+        return (state == DEPRESSED);
+    }
+    else
+    {
+        return (timeOfDepression > duration);
+    }
 }

@@ -11,7 +11,7 @@ private:
   int DEPRESSED = 0;
 
 public:
-  ButtonI2C(I2CWrapper *_i2c, byte pin);
+  ButtonI2C(I2CWrapper *_i2c, byte pin, int _edge);
   virtual void init();
   virtual byte getState();
 };

@@ -6,7 +6,7 @@ class ButtonGPIO : public Button
 {
 
 public:
-  ButtonGPIO(byte pin);
+  ButtonGPIO(byte pin, int _edge);
   virtual void init();
   virtual byte getState();
 };

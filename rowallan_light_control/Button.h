@@ -5,6 +5,7 @@ class Button
 {
 
 protected:
+  int edgeDetection;
   byte pin;
   byte state;
   byte lastReading = 0;
@@ -15,7 +16,10 @@ protected:
   unsigned long timeOfDepression = 0;
 
 public:
-  Button(byte _pin);
+  static const int EDGE_LEADING = 1;
+  static const int EDGE_TRAILING = 2;
+
+  Button(byte _pin, int _edge);
   virtual ~Button();
   virtual void init() = 0;
   virtual byte getState() = 0;

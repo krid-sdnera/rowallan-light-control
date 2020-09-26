@@ -1,6 +1,6 @@
 #include "ButtonGPIO.h"
 
-ButtonGPIO::ButtonGPIO(byte _pin) : Button(_pin) {}
+ButtonGPIO::ButtonGPIO(byte _pin, int _edge) : Button(_pin, _edge) {}
 
 void ButtonGPIO::init()
 {

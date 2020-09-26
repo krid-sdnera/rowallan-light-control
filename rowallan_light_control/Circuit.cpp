@@ -3,7 +3,7 @@
 #include "Light.h"
 #include "Timer.h"
 
-Circuit::Circuit(Button *b, Light *l, Timer *t) : button(b), light(l), timer(t) {}
+Circuit::Circuit(Button *b, Light *l, Timer *t, int _mode) : button(b), light(l), timer(t), mode(_mode) {}
 
 Circuit::~Circuit() {}
 
@@ -17,12 +17,32 @@ void Circuit::update()
 {
     Serial.println("circuit update");
 
+    int pressDuration;
+    int timerDuration;
+    if (SunState::isDay())
+    {
+        pressDuration = 2000;
+        timerDuration = 5000;
+    }
+    else
+    {
+        pressDuration = 100;
+        timerDuration = 10000;
+    }
+
     button->update();
-    if (button->isPressed())
+    if (button->isLongPressed(pressDuration))
     {
         Serial.println("circuit update:pressed");
-        light->toggle();
-        timer->start(10000);
+        if (mode == Circuit::MODE_TOGGLE)
+        {
+            light->toggle();
+        }
+        else if (!light->isOn())
+        {
+            light->on();
+        }
+        timer->start(timerDuration);
     }
     else
     {
