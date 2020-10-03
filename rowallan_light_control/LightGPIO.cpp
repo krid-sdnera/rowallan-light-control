@@ -28,7 +28,7 @@ void LightGPIO::toggle()
 void LightGPIO::on()
 {
     this->state = true;
-    digitalWrite(pin, HIGH);
+    digitalWrite(this->pin, HIGH);
 }
 
 void LightGPIO::off()

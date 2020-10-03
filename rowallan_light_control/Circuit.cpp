@@ -2,6 +2,7 @@
 #include "Sensor.h"
 #include "Light.h"
 #include "Timer.h"
+#include "AppState.h"
 
 Circuit::Circuit(Sensor *b, Light *l, Timer *t, int _mode) : sensor(b), light(l), timer(t), mode(_mode) {}
 
@@ -15,42 +16,39 @@ void Circuit::init()
 }
 void Circuit::update()
 {
-    Serial.println("circuit update");
-
     int pressDuration;
-    int timerDuration;
-    if (SunState::isDay())
+    if (AppState::getInstance()->AppMode() == AppState::MODE_DAY)
     {
         pressDuration = 2000;
-        timerDuration = 5000;
     }
     else
     {
         pressDuration = 100;
-        timerDuration = 10000;
     }
 
     sensor->update();
     if (sensor->isLongPressed(pressDuration))
     {
-        Serial.println("circuit update:pressed");
         if (mode == Circuit::MODE_TOGGLE)
         {
             light->toggle();
+            Serial.println("circuit update:toggled");
         }
         else if (!light->isOn())
         {
             light->on();
+            Serial.println("circuit update:on");
         }
-        timer->start(timerDuration);
+        timer->start();
     }
     else
     {
-        Serial.println("circuit update:not pressed");
 
         if (light->isOn() && timer->isExpired())
         {
             light->off();
+            Serial.println("circuit update:off");
         }
+        // Else check if the timer is at T-10m till expiry, then flash the lights
     }
 }

@@ -16,8 +16,8 @@ private:
   int mode;
 
 public:
-  int MODE_TOGGLE = 1;
-  int MODE_ON = 2;
+  static int const MODE_TOGGLE = 1;
+  static int const MODE_ON = 2;
 
   Circuit(Sensor *b, Light *l, Timer *t, int _mode);
   virtual ~Circuit();
