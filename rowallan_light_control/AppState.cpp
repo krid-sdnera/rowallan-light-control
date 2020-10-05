@@ -29,16 +29,10 @@ void AppState::update()
     sensor->update();
     if (sensor->isPressed())
     {
-        // Mode: Day
-        mode = AppState::MODE_DAY;
-        timer->clear();
-    }
-    else
-    {
         // Mode: Night or Late Night
         if (!timer->isStarted())
         {
-            timer->start(6, Timer::UNIT_SECOND);
+            timer->start(30, Timer::UNIT_SECOND);
         }
 
         if (timer->isExpired())
@@ -49,6 +43,12 @@ void AppState::update()
         {
             mode = AppState::MODE_NIGHT;
         }
+    }
+    else
+    {
+        // Mode: Day
+        mode = AppState::MODE_DAY;
+        timer->clear();
     }
 }
 int AppState::AppMode()
