@@ -17,25 +17,38 @@ AppState::AppState() {}
 AppState::~AppState() {}
 void AppState::setDaylightSensor(Sensor *_sensor)
 {
-    sensor = _sensor;
+    daylightSensor = _sensor;
+    daylightSensor->init();
 }
+
 void AppState::setLateNightTimer(Timer *_timer)
 {
-    timer = _timer;
+    lateNightTimer = _timer;
 }
 
-void AppState::update()
+void AppState::setStatusIndicatorLight(Light *_light)
 {
-    sensor->update();
-    if (sensor->isPressed())
+    statusIndicatorLight = _light;
+    statusIndicatorLight->init();
+}
+
+void AppState::setStatusIndicatorTimer(Timer *_timer)
+{
+    statusIndicatorTimer = _timer;
+}
+
+void AppState::updateMode()
+{
+    daylightSensor->update();
+    if (daylightSensor->isPressed())
     {
         // Mode: Night or Late Night
-        if (!timer->isStarted())
+        if (!lateNightTimer->isStarted())
         {
-            timer->start(30, Timer::UNIT_SECOND);
+            lateNightTimer->start(30, Timer::UNIT_SECOND);
         }
 
-        if (timer->isExpired())
+        if (lateNightTimer->isExpired())
         {
             mode = AppState::MODE_LATE_NIGHT;
         }
@@ -48,9 +61,63 @@ void AppState::update()
     {
         // Mode: Day
         mode = AppState::MODE_DAY;
-        timer->clear();
+        lateNightTimer->clear();
     }
 }
+
+void AppState::updateStatusIndicator()
+{
+    // Mode 1: Day time mode
+    if (AppState::getInstance()->AppMode() == AppState::MODE_DAY)
+    {
+        // TODO: Check if there is at least one circuit in override mode.
+        if (statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
+        {
+            Serial.println("status light update:off:DAY");
+            statusIndicatorLight->off();
+            statusIndicatorTimer->start(5000);
+        }
+        if (!statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
+        {
+            Serial.println("status light update:on:DAY");
+            statusIndicatorLight->on();
+            statusIndicatorTimer->start(1000);
+        }
+    }
+    // Mode 2: Night time mode
+    if (AppState::getInstance()->AppMode() == AppState::MODE_NIGHT)
+    {
+        if (statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
+        {
+            Serial.println("status light update:off:NIGHT");
+            statusIndicatorLight->off();
+            statusIndicatorTimer->start(2000);
+        }
+        if (!statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
+        {
+            Serial.println("status light update:on:NIGHT");
+            statusIndicatorLight->on();
+            statusIndicatorTimer->start(2000);
+        }
+    }
+    // Mode 3: Late night time mode
+    if (AppState::getInstance()->AppMode() == AppState::MODE_LATE_NIGHT)
+    {
+        if (statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
+        {
+            Serial.println("status light update:off:LATENIGHT");
+            statusIndicatorLight->off();
+            statusIndicatorTimer->start(4000);
+        }
+        if (!statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
+        {
+            Serial.println("status light update:on:LATENIGHT");
+            statusIndicatorLight->on();
+            statusIndicatorTimer->start(4000);
+        }
+    }
+}
+
 int AppState::AppMode()
 {
     return mode;

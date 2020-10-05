@@ -2,6 +2,7 @@
 #define AppState_H
 #include <Arduino.h>
 #include "Sensor.h"
+#include "Light.h"
 #include "Timer.h"
 
 class AppState
@@ -10,8 +11,10 @@ class AppState
 private:
   /* Here will be the instance stored. */
   static AppState *instance;
-  Sensor *sensor;
-  Timer *timer;
+  Sensor *daylightSensor;
+  Timer *lateNightTimer;
+  Light *statusIndicatorLight;
+  Timer *statusIndicatorTimer;
   byte mode;
 
   /* Private constructor to prevent instancing. */
@@ -28,8 +31,11 @@ public:
 
   void setDaylightSensor(Sensor *_sensor);
   void setLateNightTimer(Timer *_timer);
+  void setStatusIndicatorLight(Light *_light);
+  void setStatusIndicatorTimer(Timer *_timer);
 
-  void update();
+  void updateMode();
+  void updateStatusIndicator();
   int AppMode();
   int AppModeTransition(byte currentMode);
 };
