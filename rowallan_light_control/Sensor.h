@@ -5,26 +5,26 @@ class Sensor
 {
 
 protected:
-  int edgeDetection;
+  byte edgeDetection;
   byte pin;
-  byte state;
-  byte lastReading = 0;
-  byte DEPRESSED = 1;
+  bool state = HIGH;
+  bool lastReading = HIGH;
+  bool DEPRESSED = LOW;
   unsigned long lastDebounceTime = 0;
-  unsigned long debounceDelay = 20;
+  unsigned int debounceDelay = 20;
   unsigned long lastDepressedTime = 0;
   unsigned long timeOfDepression = 0;
 
 public:
-  static const int EDGE_LEADING = 1;
-  static const int EDGE_TRAILING = 2;
+  static const byte EDGE_LEADING = 1;
+  static const byte EDGE_TRAILING = 2;
 
-  Sensor(byte _pin, int _edge);
+  Sensor(byte _pin, byte _edge);
   virtual ~Sensor();
   virtual void init() = 0;
-  virtual byte getState() = 0;
+  virtual bool getState() = 0;
   void update();
   bool isPressed();
-  bool isLongPressed(int duration);
+  bool isPressed(int duration);
 };
 #endif

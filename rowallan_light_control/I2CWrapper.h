@@ -14,7 +14,7 @@ private:
   MCP23008 relayController;
 
 public:
-  I2CWrapper(int a0, int a1, int a2);
+  I2CWrapper(byte a0, byte a1, byte a2);
   /* Static access method. */
   // static I2CWrapper *getInstance();
 

@@ -14,7 +14,7 @@
 //     return instance;
 // }
 
-I2CWrapper::I2CWrapper(int a0, int a1, int a2)
+I2CWrapper::I2CWrapper(byte a0, byte a1, byte a2)
 {
     // relayController is constructed with no args in the header
     relayController.setAddress(a0, a1, a2);

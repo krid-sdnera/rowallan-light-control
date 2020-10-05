@@ -3,15 +3,15 @@ Timer::Timer() {}
 Timer::~Timer() {}
 void Timer::start()
 {
-    start(-1, Timer::UNIT_SECOND);
+    start(-1, Timer::UNIT_MILLI);
 }
 
 void Timer::start(int duration)
 {
-    start(duration, Timer::UNIT_SECOND);
+    start(duration, Timer::UNIT_MILLI);
 }
 
-void Timer::start(int duration, int unit)
+void Timer::start(int duration, unsigned int unit)
 {
     // Convert into seconds
     duration = duration * unit;

@@ -1,13 +1,13 @@
 #include "SensorGPIO.h"
 
-SensorGPIO::SensorGPIO(byte _pin, int _edge) : Sensor(_pin, _edge) {}
+SensorGPIO::SensorGPIO(byte _pin, byte _edge) : Sensor(_pin, _edge) {}
 
 void SensorGPIO::init()
 {
-    pinMode(this->pin, INPUT_PULLUP);
+    pinMode(pin, INPUT_PULLUP);
 }
 
-byte SensorGPIO::getState()
+bool SensorGPIO::getState()
 {
-    return digitalRead(this->pin);
+    return digitalRead(pin);
 }

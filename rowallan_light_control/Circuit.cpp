@@ -4,7 +4,7 @@
 #include "Timer.h"
 #include "AppState.h"
 
-Circuit::Circuit(Sensor *b, Light *l, Timer *t, int _mode) : sensor(b), light(l), timer(t), mode(_mode) {}
+Circuit::Circuit(Sensor *b, Light *l, Timer *t, byte _mode) : sensor(b), light(l), timer(t), mode(_mode) {}
 
 Circuit::~Circuit() {}
 
@@ -27,7 +27,7 @@ void Circuit::update()
     }
 
     sensor->update();
-    if (sensor->isLongPressed(pressDuration))
+    if (sensor->isPressed(pressDuration))
     {
         if (mode == Circuit::MODE_TOGGLE)
         {
@@ -43,7 +43,6 @@ void Circuit::update()
     }
     else
     {
-
         if (light->isOn() && timer->isExpired())
         {
             light->off();

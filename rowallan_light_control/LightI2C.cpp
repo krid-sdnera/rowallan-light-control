@@ -3,7 +3,10 @@
 
 LightI2C::LightI2C(I2CWrapper *_i2c, byte _pin) : i2c(_i2c), Light(_pin) {}
 
-void LightI2C::init() {}
+void LightI2C::init()
+{
+    off();
+}
 
 bool LightI2C::isOn()
 {

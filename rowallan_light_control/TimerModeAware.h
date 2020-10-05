@@ -7,14 +7,14 @@ class TimerModeAware : public Timer
 {
 
 private:
+  byte storedAppMode = 0;
   int durationDay;
   int durationNight;
   int durationLateNight;
-  int storedAppMode = 0;
 
 public:
   TimerModeAware(int _day, int _night, int _lateNight);
   virtual ~TimerModeAware();
-  virtual bool isExpired();
+  virtual bool isExpired() override;
 };
 #endif

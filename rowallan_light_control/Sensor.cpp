@@ -1,7 +1,5 @@
 #include "Sensor.h"
-Sensor::Sensor(byte _pin, int _edge) : pin(_pin), edgeDetection(_edge)
-{
-}
+Sensor::Sensor(byte _pin, byte _edge) : pin(_pin), edgeDetection(_edge) {}
 Sensor::~Sensor() {}
 
 void Sensor::update()
@@ -9,18 +7,13 @@ void Sensor::update()
     // You can handle the debounce of the sensor directly
     // in the class, so you don't have to think about it
     // elsewhere in your code
-    byte newReading = getState();
+    bool newReading = getState();
     timeOfDepression = 0;
-
-    Serial.println("sensor update:raw status");
-    Serial.println(newReading);
 
     if (newReading != lastReading)
     {
+        // Save the time the reading changed.
         lastDebounceTime = millis();
-
-        Serial.println("sensor update:changed");
-        Serial.println(lastDebounceTime);
     }
     if (newReading != state && millis() - lastDebounceTime > debounceDelay)
     {
@@ -39,16 +32,16 @@ void Sensor::update()
             timeOfDepression = millis() - lastDepressedTime;
         }
 
-        Serial.println("sensor update:depression time");
-        Serial.println(timeOfDepression);
+        Serial.print("sensor update:state: ");
+        Serial.println(state);
     }
     lastReading = newReading;
 }
 bool Sensor::isPressed()
 {
-    return isLongPressed(100);
+    return isPressed(100);
 }
-bool Sensor::isLongPressed(int duration)
+bool Sensor::isPressed(int duration)
 {
     if (edgeDetection == Sensor::EDGE_LEADING)
     {

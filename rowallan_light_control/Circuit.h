@@ -13,13 +13,13 @@ private:
   Sensor *sensor;
   Light *light;
   Timer *timer;
-  int mode;
+  byte mode;
 
 public:
-  static int const MODE_TOGGLE = 1;
-  static int const MODE_ON = 2;
+  static const byte MODE_TOGGLE = 1;
+  static const byte MODE_ON = 2;
 
-  Circuit(Sensor *b, Light *l, Timer *t, int _mode);
+  Circuit(Sensor *b, Light *l, Timer *t, byte _mode);
   virtual ~Circuit();
   void init();
   void update();

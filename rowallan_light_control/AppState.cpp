@@ -55,7 +55,7 @@ int AppState::AppMode()
 {
     return mode;
 }
-int AppState::AppModeTransition(int currentMode)
+int AppState::AppModeTransition(byte currentMode)
 {
     // Poormans state engine
     if (currentMode == mode)

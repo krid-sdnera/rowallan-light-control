@@ -8,11 +8,10 @@ class SensorI2C : public Sensor
 
 private:
   I2CWrapper *i2c;
-  int DEPRESSED = 0;
 
 public:
-  SensorI2C(I2CWrapper *_i2c, byte pin, int _edge);
+  SensorI2C(I2CWrapper *_i2c, byte pin, byte _edge);
   virtual void init();
-  virtual byte getState();
+  virtual bool getState();
 };
 #endif

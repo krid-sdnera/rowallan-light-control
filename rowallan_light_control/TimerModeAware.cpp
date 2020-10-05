@@ -5,7 +5,7 @@ TimerModeAware::~TimerModeAware() {}
 
 bool TimerModeAware::isExpired()
 {
-    int targetMode = AppState::getInstance()->AppModeTransition(storedAppMode);
+    byte targetMode = AppState::getInstance()->AppModeTransition(storedAppMode);
     int modeDuration = expiryDuration;
 
     switch (targetMode)
@@ -30,7 +30,7 @@ bool TimerModeAware::isExpired()
 
     if (modeDuration < expiryDuration)
     {
-        // The duration needs to be shortened.
+        // The mode has changed and the duration needs to be shortened.
         // Restart the timer at now and update the duration.
         start(modeDuration);
     }

@@ -17,22 +17,22 @@ void LightGPIO::toggle()
 {
     if (isOn() == true)
     {
-        on();
+        off();
     }
     else
     {
-        off();
+        on();
     }
 }
 
 void LightGPIO::on()
 {
-    this->state = true;
-    digitalWrite(this->pin, HIGH);
+    state = true;
+    digitalWrite(pin, HIGH);
 }
 
 void LightGPIO::off()
 {
-    this->state = false;
-    digitalWrite(this->pin, LOW);
+    state = false;
+    digitalWrite(pin, LOW);
 }
