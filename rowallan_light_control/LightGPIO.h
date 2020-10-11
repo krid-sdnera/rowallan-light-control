@@ -11,10 +11,10 @@ private:
 
 public:
   LightGPIO(byte _pin);
-  virtual void init();
-  virtual boolean isOn();
-  virtual void toggle();
-  virtual void on();
-  virtual void off();
+  virtual void init() override;
+  virtual boolean isOn() override;
+  virtual void toggle() override;
+  virtual void on() override;
+  virtual void off() override;
 };
 #endif

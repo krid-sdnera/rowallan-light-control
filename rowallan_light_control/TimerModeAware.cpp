@@ -1,12 +1,16 @@
 #include "TimerModeAware.h"
 #include "AppState.h"
-TimerModeAware::TimerModeAware(int _day, int _night, int _lateNight) : durationDay(_day), durationNight(_night), durationLateNight(_lateNight), Timer() {}
+TimerModeAware::TimerModeAware(int _day, int _night, int _lateNight, int _almost) : durationDay(_day), durationNight(_night), durationLateNight(_lateNight), Timer(_almost) {}
 TimerModeAware::~TimerModeAware() {}
 
-bool TimerModeAware::isExpired()
+int TimerModeAware::modifyDuration(int duration)
 {
+    if (!isStarted())
+    {
+        storedAppMode = 0;
+    }
     byte targetMode = AppState::getInstance()->AppModeTransition(storedAppMode);
-    int modeDuration = expiryDuration;
+    int modeDuration = duration;
 
     switch (targetMode)
     {
@@ -23,20 +27,31 @@ bool TimerModeAware::isExpired()
 
     // Set the expiry duration to the limit for this mode,
     // if there was no duration set when initially started.
-    if (expiryDuration <= 0)
+    if (duration <= 0)
     {
-        expiryDuration = modeDuration;
+        duration = modeDuration;
     }
 
-    if (modeDuration < expiryDuration)
+    if (modeDuration < duration)
     {
         // The mode has changed and the duration needs to be shortened.
         // Restart the timer at now and update the duration.
         start(modeDuration);
+        // Also return the updated duration just incase.
+        duration = modeDuration;
     }
 
     // Store app mode
     storedAppMode = AppState::getInstance()->AppMode();
+
+    return duration;
+}
+
+bool TimerModeAware::isExpired()
+{
+    // Modify but dont save, if the duration needs to be shortened
+    // then the timer should be restarted automatically.
+    modifyDuration(expiryDuration);
 
     return ((millis() - startTime) > expiryDuration);
 }

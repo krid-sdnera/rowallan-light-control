@@ -16,32 +16,47 @@
 I2CWrapper relayI2CBoard1(0, 0, 0);
 I2CWrapper relayI2CBoard2(1, 0, 0);
 
-SensorI2C sensor11(&relayI2CBoard1, 1, Sensor::EDGE_TRAILING);
-SensorI2C sensor12(&relayI2CBoard1, 2, Sensor::EDGE_TRAILING);
-SensorI2C sensor13(&relayI2CBoard1, 3, Sensor::EDGE_LEADING);
-SensorI2C sensor14(&relayI2CBoard1, 4, Sensor::EDGE_TRAILING);
-SensorI2C sensor21(&relayI2CBoard2, 1, Sensor::EDGE_TRAILING);
-SensorI2C sensor22(&relayI2CBoard2, 2, Sensor::EDGE_LEADING);
-SensorI2C sensor23(&relayI2CBoard2, 3, Sensor::EDGE_TRAILING);
-SensorI2C sensor24(&relayI2CBoard2, 4, Sensor::EDGE_TRAILING);
-SensorGPIO sensorD7(7, Sensor::EDGE_LEADING); // Day night detector
+SensorI2C sensor11(&relayI2CBoard1, 1);
+SensorI2C sensor12(&relayI2CBoard1, 2);
+SensorI2C sensor13(&relayI2CBoard1, 3);
+SensorI2C sensor14(&relayI2CBoard1, 4);
+SensorI2C sensor21(&relayI2CBoard2, 1);
+SensorI2C sensor22(&relayI2CBoard2, 2);
+SensorI2C sensor23(&relayI2CBoard2, 3);
+SensorI2C sensor24(&relayI2CBoard2, 4);
+SensorGPIO sensorD7(7); // Day night detector
 
 LightI2C light11(&relayI2CBoard1, 1);
 LightI2C light12(&relayI2CBoard1, 2);
 LightI2C light13(&relayI2CBoard1, 3);
+LightI2C light14(&relayI2CBoard1, 3);
+LightI2C light21(&relayI2CBoard2, 1);
+LightI2C light22(&relayI2CBoard2, 2);
+LightI2C light23(&relayI2CBoard2, 3);
+LightI2C light24(&relayI2CBoard2, 3);
 LightGPIO lightD8(8);
 LightGPIO lightD9(9); // Status Light
 
-// Set the durations for_day, night, lateNight
-TimerModeAware timer1(10000, 20000, 5000);
-TimerModeAware timer2(10000, 20000, 5000);
-TimerModeAware timer3(10000, 20000, 5000);
+// Set the durations for day, night, lateNight
+TimerModeAware timer1(15000, 20000, 10000, 5000);
+TimerModeAware timer2(15000, 20000, 10000, 5000);
+TimerModeAware timer3(15000, 20000, 10000, 0);
+TimerModeAware timer4(15000, 20000, 10000, 5000);
+TimerModeAware timer5(15000, 20000, 10000, 5000);
+TimerModeAware timer6(15000, 20000, 10000, 5000);
+TimerModeAware timer7(15000, 20000, 10000, 5000);
+TimerModeAware timer8(15000, 20000, 10000, 5000);
 Timer statusIndicatorTimer;
 Timer lateNightModeTimer;
 
-Circuit circuit1(&sensor11, &light11, &timer1, Circuit::MODE_TOGGLE);
-Circuit circuit2(&sensor12, &light12, &timer2, Circuit::MODE_TOGGLE);
-Circuit circuit3(&sensor13, &light13, &timer3, Circuit::MODE_ON);
+Circuit circuit1(&sensor11, &light11, &timer1, Circuit::MODE_TOGGLE, 2000);
+Circuit circuit2(&sensor12, &light12, &timer2, Circuit::MODE_TOGGLE, 2000);
+Circuit circuit3(&sensor13, &light13, &timer3, Circuit::MODE_ON, 100);
+Circuit circuit4(&sensor14, &light14, &timer4, Circuit::MODE_TOGGLE, 2000);
+Circuit circuit5(&sensor21, &light21, &timer5, Circuit::MODE_TOGGLE, 2000);
+Circuit circuit6(&sensor22, &light22, &timer6, Circuit::MODE_TOGGLE, 2000);
+Circuit circuit7(&sensor23, &light23, &timer7, Circuit::MODE_TOGGLE, 2000);
+Circuit circuit8(&sensor24, &light24, &timer8, Circuit::MODE_TOGGLE, 100);
 
 void setup()
 {
@@ -57,22 +72,26 @@ void setup()
     circuit1.init();
     circuit2.init();
     circuit3.init();
+    circuit4.init();
+    circuit5.init();
+    circuit6.init();
+    circuit7.init();
+    circuit8.init();
 
     Serial.println("initialisation done");
 }
 
 void loop()
 {
-    // Serial.println("loop: begin");
-
     AppState::getInstance()->updateMode();
     AppState::getInstance()->updateStatusIndicator();
 
     circuit1.update();
     circuit2.update();
     circuit3.update();
-    // circuit4.update();
-    // circuit5.update();
-    // circuit6.update();
-    // circuit7.update();
+    circuit4.update();
+    circuit5.update();
+    circuit6.update();
+    circuit7.update();
+    circuit8.update();
 }

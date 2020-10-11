@@ -1,5 +1,6 @@
 #include "Timer.h"
 Timer::Timer() {}
+Timer::Timer(int _almost) : almostDuration(_almost) {}
 Timer::~Timer() {}
 void Timer::start()
 {
@@ -13,20 +14,42 @@ void Timer::start(int duration)
 
 void Timer::start(int duration, unsigned int unit)
 {
+    clear();
+
     // Convert into seconds
     duration = duration * unit;
+
+    duration = modifyDuration(duration);
 
     startTime = millis();
     expiryDuration = duration;
 }
+
+int Timer::modifyDuration(int duration)
+{
+    return duration;
+}
+
 bool Timer::isExpired()
 {
     return ((millis() - startTime) > expiryDuration);
 }
+
+bool Timer::isAlmostExpired()
+{
+    if (almostDuration == 0)
+    {
+        return false;
+    }
+
+    return ((millis() - startTime) > (expiryDuration - almostDuration));
+}
+
 bool Timer::isStarted()
 {
     return (startTime != 0);
 }
+
 void Timer::clear()
 {
     startTime = 0;

@@ -10,20 +10,24 @@ void LightI2C::init()
 
 bool LightI2C::isOn()
 {
-    return (i2c->rc().readRelayStatus(this->pin) == 1);
+    // return (i2c->rc().readRelayStatus(this->pin) == 1);
+    return (state == true);
 }
 
 void LightI2C::toggle()
 {
-    i2c->rc().toggleRelay(this->pin);
+    state = !state;
+    i2c->rc().toggleRelay(pin);
 }
 
 void LightI2C::on()
 {
-    i2c->rc().turnOnRelay(this->pin);
+    state = true;
+    i2c->rc().turnOnRelay(pin);
 }
 
 void LightI2C::off()
 {
-    i2c->rc().turnOffRelay(this->pin);
+    state = false;
+    i2c->rc().turnOffRelay(pin);
 }

@@ -13,8 +13,9 @@ private:
   int durationLateNight;
 
 public:
-  TimerModeAware(int _day, int _night, int _lateNight);
+  TimerModeAware(int _day, int _night, int _lateNight, int _almost);
   virtual ~TimerModeAware();
+  virtual int modifyDuration(int duration) override;
   virtual bool isExpired() override;
 };
 #endif

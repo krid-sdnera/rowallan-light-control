@@ -40,7 +40,7 @@ void AppState::setStatusIndicatorTimer(Timer *_timer)
 void AppState::updateMode()
 {
     daylightSensor->update();
-    if (daylightSensor->isPressed())
+    if (daylightSensor->isActive())
     {
         // Mode: Night or Late Night
         if (!lateNightTimer->isStarted())

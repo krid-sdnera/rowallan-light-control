@@ -1,5 +1,5 @@
 #include "Sensor.h"
-Sensor::Sensor(byte _pin, byte _edge) : pin(_pin), edgeDetection(_edge) {}
+Sensor::Sensor(byte _pin) : pin(_pin) {}
 Sensor::~Sensor() {}
 
 void Sensor::update()
@@ -8,7 +8,6 @@ void Sensor::update()
     // in the class, so you don't have to think about it
     // elsewhere in your code
     bool newReading = getState();
-    timeOfDepression = 0;
 
     if (newReading != lastReading)
     {
@@ -19,36 +18,46 @@ void Sensor::update()
     {
         // Update the 'state' attribute only if debounce is checked
         state = newReading;
-
-        if (state == DEPRESSED)
-        {
-            lastDepressedTime = millis();
-            timeOfDepression = 0;
-        }
-        else
-        {
-            // therefore newReading is Released
-            // and return the delta
-            timeOfDepression = millis() - lastDepressedTime;
-        }
+        lastStateChangeTime = millis();
 
         Serial.print("sensor update:state: ");
         Serial.println(state);
     }
     lastReading = newReading;
 }
-bool Sensor::isPressed()
+
+bool Sensor::isActive()
 {
-    return isPressed(100);
+    return isActive(100);
 }
-bool Sensor::isPressed(int duration)
+
+bool Sensor::isActive(int duration)
 {
-    if (edgeDetection == Sensor::EDGE_LEADING)
+
+    if (state == DEPRESSED)
     {
-        return (state == DEPRESSED);
+        // True if the sensor has been active for at least the duration
+        return (millis() - lastStateChangeTime) > duration;
     }
-    else
+
+    // The sensor is inactive
+    return false;
+}
+
+bool Sensor::isInactive()
+{
+    return isInactive(100);
+}
+
+bool Sensor::isInactive(int duration)
+{
+
+    if (state != DEPRESSED)
     {
-        return (timeOfDepression > duration);
+        // True if the sensor has been inactive for at least the duration
+        return (millis() - lastStateChangeTime) > duration;
     }
+
+    // The sensor is active
+    return false;
 }

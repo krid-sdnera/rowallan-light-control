@@ -6,16 +6,19 @@
 
 class LightI2C : public Light
 {
+private:
+  boolean state = false;
+
 protected:
   I2CWrapper *i2c;
 
 public:
   LightI2C(I2CWrapper *_i2c, byte pin);
 
-  virtual void init();
-  virtual boolean isOn();
-  virtual void toggle();
-  virtual void on();
-  virtual void off();
+  virtual void init() override;
+  virtual boolean isOn() override;
+  virtual void toggle() override;
+  virtual void on() override;
+  virtual void off() override;
 };
 #endif

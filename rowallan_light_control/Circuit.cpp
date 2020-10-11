@@ -4,7 +4,7 @@
 #include "Timer.h"
 #include "AppState.h"
 
-Circuit::Circuit(Sensor *b, Light *l, Timer *t, byte _mode) : sensor(b), light(l), timer(t), mode(_mode) {}
+Circuit::Circuit(Sensor *b, Light *l, Timer *t, byte _circuitMode, int _sensorOverrideActiveDuration) : sensor(b), light(l), timer(t), circuitMode(_circuitMode), sensorOverrideActiveDuration(_sensorOverrideActiveDuration) {}
 
 Circuit::~Circuit() {}
 
@@ -17,19 +17,23 @@ void Circuit::init()
 void Circuit::update()
 {
     int pressDuration;
-    if (AppState::getInstance()->AppMode() == AppState::MODE_DAY)
+    if (AppState::getInstance()->AppMode() == AppState::MODE_DAY && !light->isOn())
     {
-        pressDuration = 2000;
+        pressDuration = sensorOverrideActiveDuration;
     }
     else
     {
         pressDuration = 100;
     }
 
+    light->flashUpdate();
     sensor->update();
-    if (sensor->isPressed(pressDuration))
+
+    // If the sensor is active and we have not processed the active action
+    // before, we can perform the toggle/on action for this circuit.
+    if (sensor->isActive(pressDuration) && !processedActiveStateEvent)
     {
-        if (mode == Circuit::MODE_TOGGLE)
+        if (circuitMode == Circuit::MODE_TOGGLE)
         {
             light->toggle();
             Serial.println("circuit update:toggled");
@@ -39,15 +43,39 @@ void Circuit::update()
             light->on();
             Serial.println("circuit update:on");
         }
+
+        // Mark this active state event as processed.
+        processedActiveStateEvent = true;
+
+        // (Re)Start timer and unmark almost expired event as not processed.
         timer->start();
+        processedAlmostExpiredEvent = false;
     }
-    else
+
+    // If the sensor is inactive we want to reset the flag marking the active
+    // action as processed so the next time the sensor is acitve we can procecess
+    // that event.
+    if (sensor->isInactive())
     {
-        if (light->isOn() && timer->isExpired())
+        processedActiveStateEvent = false;
+    }
+
+    if (light->isOn())
+    {
+        // Check if the light should be turned off,
+        // even if the sensor has been held down.
+        if (timer->isExpired())
         {
             light->off();
             Serial.println("circuit update:off");
         }
-        // Else check if the timer is at T-10m till expiry, then flash the lights
+
+        // FLash the circuit if the timer is almost expired
+        if (timer->isAlmostExpired() && !processedAlmostExpiredEvent)
+        {
+            processedAlmostExpiredEvent = true;
+            light->flash();
+            Serial.println("circuit update:flash");
+        }
     }
 }

@@ -13,13 +13,16 @@ private:
   Sensor *sensor;
   Light *light;
   Timer *timer;
-  byte mode;
+  byte circuitMode;
+  int sensorOverrideActiveDuration;
+  bool processedActiveStateEvent = false;
+  bool processedAlmostExpiredEvent = false;
 
 public:
   static const byte MODE_TOGGLE = 1;
   static const byte MODE_ON = 2;
 
-  Circuit(Sensor *b, Light *l, Timer *t, byte _mode);
+  Circuit(Sensor *b, Light *l, Timer *t, byte _mode, int _sensorOverrideActiveDuration);
   virtual ~Circuit();
   void init();
   void update();

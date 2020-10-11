@@ -6,8 +6,8 @@ class SensorGPIO : public Sensor
 {
 
 public:
-  SensorGPIO(byte pin, byte _edge);
-  virtual void init();
-  virtual bool getState();
+  SensorGPIO(byte pin);
+  virtual void init() override;
+  virtual bool getState() override;
 };
 #endif
