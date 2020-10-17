@@ -16,6 +16,31 @@ void Circuit::init()
 }
 void Circuit::update()
 {
+    if (circuitMode == Circuit::MODE_KEYPAD)
+    {
+        if (sensor->getState())
+        {
+            timer->start(3000);
+            light->on();
+            Serial.println("circuit update:on:keypad");
+        }
+
+        if (light->isOn())
+        {
+            // Check if the light should be turned off,
+            // even if the sensor has been held down.
+            if (timer->isExpired())
+            {
+                light->off();
+                Serial.println("circuit update:off:keypad");
+            }
+        }
+        return;
+    }
+
+    // Vaild Circuit::Modes below this point
+    // MODE_TOGGLE, MODE_ON
+
     int pressDuration;
     if (AppState::getInstance()->AppMode() == AppState::MODE_DAY && !light->isOn())
     {
@@ -38,7 +63,7 @@ void Circuit::update()
             light->toggle();
             Serial.println("circuit update:toggled");
         }
-        else if (!light->isOn())
+        else if (!light->isOn() && circuitMode == Circuit::MODE_ON)
         {
             light->on();
             Serial.println("circuit update:on");

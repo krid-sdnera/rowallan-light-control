@@ -21,6 +21,7 @@ private:
 public:
   static const byte MODE_TOGGLE = 1;
   static const byte MODE_ON = 2;
+  static const byte MODE_KEYPAD = 3;
 
   Circuit(Sensor *b, Light *l, Timer *t, byte _mode, int _sensorOverrideActiveDuration);
   virtual ~Circuit();
