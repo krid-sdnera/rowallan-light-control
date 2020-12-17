@@ -8,14 +8,14 @@ class TimerModeAware : public Timer
 
 private:
   byte storedAppMode = 0;
-  int durationDay;
-  int durationNight;
-  int durationLateNight;
+  unsigned long durationDay;
+  unsigned long durationNight;
+  unsigned long durationLateNight;
 
 public:
-  TimerModeAware(int _day, int _night, int _lateNight, int _almost);
+  TimerModeAware(unsigned long _day, unsigned long _night, unsigned long _lateNight, unsigned long _almost);
   virtual ~TimerModeAware();
-  virtual int modifyDuration(int duration) override;
+  virtual unsigned long modifyDuration(unsigned long duration) override;
   virtual bool isExpired() override;
 };
 #endif

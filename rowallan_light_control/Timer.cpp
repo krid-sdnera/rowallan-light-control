@@ -1,18 +1,18 @@
 #include "Timer.h"
 Timer::Timer() {}
-Timer::Timer(int _almost) : almostDuration(_almost) {}
+Timer::Timer(unsigned long _almost) : almostDuration(_almost) {}
 Timer::~Timer() {}
 void Timer::start()
 {
     start(-1, Timer::UNIT_MILLI);
 }
 
-void Timer::start(int duration)
+void Timer::start(unsigned long duration)
 {
     start(duration, Timer::UNIT_MILLI);
 }
 
-void Timer::start(int duration, unsigned int unit)
+void Timer::start(unsigned long duration, unsigned int unit)
 {
     clear();
 
@@ -25,7 +25,7 @@ void Timer::start(int duration, unsigned int unit)
     expiryDuration = duration;
 }
 
-int Timer::modifyDuration(int duration)
+unsigned long Timer::modifyDuration(unsigned long duration)
 {
     return duration;
 }

@@ -1,16 +1,16 @@
 #include "TimerModeAware.h"
 #include "AppState.h"
-TimerModeAware::TimerModeAware(int _day, int _night, int _lateNight, int _almost) : durationDay(_day), durationNight(_night), durationLateNight(_lateNight), Timer(_almost) {}
+TimerModeAware::TimerModeAware(unsigned long _day, unsigned long _night, unsigned long _lateNight, unsigned long _almost) : durationDay(_day), durationNight(_night), durationLateNight(_lateNight), Timer(_almost) {}
 TimerModeAware::~TimerModeAware() {}
 
-int TimerModeAware::modifyDuration(int duration)
+unsigned long TimerModeAware::modifyDuration(unsigned long duration)
 {
     if (!isStarted())
     {
         storedAppMode = 0;
     }
     byte targetMode = AppState::getInstance()->AppModeTransition(storedAppMode);
-    int modeDuration = duration;
+    unsigned long modeDuration = duration;
 
     switch (targetMode)
     {

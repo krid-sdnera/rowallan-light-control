@@ -6,12 +6,12 @@ class Timer
 
 protected:
   unsigned long startTime = 0;
-  int expiryDuration = 0;
-  int almostDuration = 0;
+  unsigned long expiryDuration = 0;
+  unsigned long almostDuration = 0;
 
 public:
   Timer();
-  Timer(int _almost);
+  Timer(unsigned long _almost);
   virtual ~Timer();
 
   // Values in milliseconds
@@ -21,9 +21,9 @@ public:
   static const unsigned long UNIT_HOUR = 3600000ul;
 
   void start();
-  void start(int duration);
-  void start(int duration, unsigned int unit);
-  virtual int modifyDuration(int duration);
+  void start(unsigned long duration);
+  void start(unsigned long duration, unsigned int unit);
+  virtual unsigned long modifyDuration(unsigned long duration);
   virtual bool isExpired();
   bool isAlmostExpired();
   bool isStarted();
