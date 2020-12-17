@@ -13,6 +13,7 @@ private:
   static AppState *instance;
   Sensor *daylightSensor;
   Timer *lateNightTimer;
+  Light *nightLight = 0;
   Light *statusIndicatorLight;
   Timer *statusIndicatorTimer;
   byte mode;
@@ -31,6 +32,7 @@ public:
 
   void setDaylightSensor(Sensor *_sensor);
   void setLateNightTimer(Timer *_timer);
+  void setNightLight(Light *_light);
   void setStatusIndicatorLight(Light *_light);
   void setStatusIndicatorTimer(Timer *_timer);
 
