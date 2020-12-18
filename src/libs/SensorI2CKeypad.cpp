@@ -1,6 +1,6 @@
 #include "SensorI2CKeypad.h"
 
-SensorI2CKeypad::SensorI2CKeypad(byte _pin) : Sensor(_pin) {}
+SensorI2CKeypad::SensorI2CKeypad() : Sensor() {}
 
 void SensorI2CKeypad::init()
 {

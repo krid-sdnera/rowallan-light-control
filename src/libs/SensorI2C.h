@@ -8,6 +8,7 @@ class SensorI2C : public Sensor
 
 private:
   I2CWrapper *i2c;
+  const byte pin;
 
 public:
   SensorI2C(I2CWrapper *_i2c, byte pin);

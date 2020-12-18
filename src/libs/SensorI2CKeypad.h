@@ -4,7 +4,6 @@
 #include "AppState.h"
 #include "Sensor.h"
 #include "SparkFun_Qwiic_Keypad_Arduino_Library.h"
-// typedef void(voidFuncPtr)(void);
 
 class SensorI2CKeypad : public Sensor
 {
@@ -15,7 +14,7 @@ private:
   char keysExpected[4] = {'1', '2', '3', '4'};
 
 public:
-  SensorI2CKeypad(byte pin);
+  SensorI2CKeypad();
   virtual void init() override;
   virtual bool getState() override;
 };

@@ -4,6 +4,8 @@
 #include "Sensor.h"
 class SensorGPIO : public Sensor
 {
+protected:
+  const byte pin;
 
 public:
   SensorGPIO(byte pin);

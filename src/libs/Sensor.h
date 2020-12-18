@@ -5,7 +5,6 @@ class Sensor
 {
 
 protected:
-  byte pin;
   bool state = HIGH;
   bool lastReading = HIGH;
   bool DEPRESSED = LOW;
@@ -14,7 +13,7 @@ protected:
   unsigned long lastStateChangeTime = 0;
 
 public:
-  Sensor(byte _pin);
+  Sensor();
   virtual ~Sensor();
   virtual void init() = 0;
   virtual bool getState() = 0;

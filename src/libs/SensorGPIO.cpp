@@ -1,6 +1,6 @@
 #include "SensorGPIO.h"
 
-SensorGPIO::SensorGPIO(byte _pin) : Sensor(_pin) {}
+SensorGPIO::SensorGPIO(byte _pin) : pin(_pin), Sensor() {}
 
 void SensorGPIO::init()
 {

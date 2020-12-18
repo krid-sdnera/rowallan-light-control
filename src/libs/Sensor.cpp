@@ -1,5 +1,5 @@
 #include "Sensor.h"
-Sensor::Sensor(byte _pin) : pin(_pin) {}
+Sensor::Sensor() {}
 Sensor::~Sensor() {}
 
 void Sensor::update()
