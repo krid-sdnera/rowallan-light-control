@@ -2,17 +2,17 @@
 Timer::Timer() {}
 Timer::Timer(unsigned long _almost) : almostDuration(_almost) {}
 Timer::~Timer() {}
-void Timer::start()
+unsigned long Timer::start()
 {
-    start(-1, Timer::UNIT_MILLI);
+    return start(-1, Timer::UNIT_MILLI);
 }
 
-void Timer::start(unsigned long duration)
+unsigned long Timer::start(unsigned long duration)
 {
-    start(duration, Timer::UNIT_MILLI);
+    return start(duration, Timer::UNIT_MILLI);
 }
 
-void Timer::start(unsigned long duration, unsigned int unit)
+unsigned long Timer::start(unsigned long duration, unsigned int unit)
 {
     clear();
 
@@ -23,6 +23,8 @@ void Timer::start(unsigned long duration, unsigned int unit)
 
     startTime = millis();
     expiryDuration = duration;
+
+    return expiryDuration;
 }
 
 unsigned long Timer::modifyDuration(unsigned long duration)

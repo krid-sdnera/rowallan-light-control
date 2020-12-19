@@ -58,7 +58,13 @@ void Circuit::update()
     // before, we can perform the toggle/on action for this circuit.
     if (sensor->isActive(pressDuration) && !processedActiveStateEvent)
     {
-        if (circuitMode == Circuit::MODE_TOGGLE)
+        // (Re)Start timer
+        if (timer->start() == 0)
+        {
+            light->off();
+            Serial.println("circuit update:off:duration:0");
+        }
+        else if (circuitMode == Circuit::MODE_TOGGLE)
         {
             light->toggle();
             Serial.println("circuit update:toggled");
@@ -71,9 +77,7 @@ void Circuit::update()
 
         // Mark this active state event as processed.
         processedActiveStateEvent = true;
-
-        // (Re)Start timer and unmark almost expired event as not processed.
-        timer->start();
+        /// Mark almost expired event as not processed.
         processedAlmostExpiredEvent = false;
     }
 

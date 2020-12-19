@@ -20,9 +20,9 @@ public:
   static const unsigned int UNIT_MINUTE = 60000;
   static const unsigned long UNIT_HOUR = 3600000ul;
 
-  void start();
-  void start(unsigned long duration);
-  void start(unsigned long duration, unsigned int unit);
+  unsigned long start();
+  unsigned long start(unsigned long duration);
+  unsigned long start(unsigned long duration, unsigned int unit);
   virtual unsigned long modifyDuration(unsigned long duration);
   virtual bool isExpired();
   bool isAlmostExpired();
