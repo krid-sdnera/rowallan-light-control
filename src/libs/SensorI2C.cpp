@@ -2,7 +2,10 @@
 
 SensorI2C::SensorI2C(I2CWrapper *_i2c, byte _pin) : i2c(_i2c), pin(_pin), Sensor() {}
 
-void SensorI2C::init() {}
+void SensorI2C::init()
+{
+    state = getState();
+}
 
 bool SensorI2C::getState()
 {
