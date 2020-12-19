@@ -41,22 +41,16 @@ void Circuit::update()
     // Vaild Circuit::Modes below this point
     // MODE_TOGGLE, MODE_ON
 
-    int pressDuration;
-    if (AppState::getInstance()->AppMode() == AppState::MODE_DAY && !light->isOn())
-    {
-        pressDuration = sensorOverrideActiveDuration;
-    }
-    else
-    {
-        pressDuration = 100;
-    }
+    int pressDuration = 100;
 
     light->flashUpdate();
     sensor->update();
 
+    byte sensor_mode = (circuitMode == Circuit::MODE_TOGGLE) ? Sensor::MODE_BOTH_EDGE : Sensor::MODE_LEADING_EDGE;
+
     // If the sensor is active and we have not processed the active action
     // before, we can perform the toggle/on action for this circuit.
-    if (sensor->isActive(pressDuration) && !processedActiveStateEvent)
+    if (sensor->isActive(pressDuration, sensor_mode) && !processedActiveStateEvent)
     {
         // (Re)Start timer
         if (timer->start() == 0)
@@ -81,10 +75,18 @@ void Circuit::update()
         processedAlmostExpiredEvent = false;
     }
 
+    // Allow MODE_ON circuits to hold the sensor active.
+    if (sensor->isActive(pressDuration, sensor_mode) && circuitMode == Circuit::MODE_ON)
+    {
+        // (Re)Start timer and unmark almost expired event as not processed.
+        timer->start();
+        processedAlmostExpiredEvent = false;
+    }
+
     // If the sensor is inactive we want to reset the flag marking the active
     // action as processed so the next time the sensor is acitve we can procecess
     // that event.
-    if (sensor->isInactive())
+    if (!sensor->isActive(sensor_mode))
     {
         processedActiveStateEvent = false;
     }

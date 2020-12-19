@@ -28,36 +28,31 @@ void Sensor::update()
 
 bool Sensor::isActive()
 {
-    return isActive(100);
+    return isActive(100, Sensor::MODE_LEADING_EDGE);
 }
 
 bool Sensor::isActive(int duration)
 {
-
-    if (state == DEPRESSED)
-    {
-        // True if the sensor has been active for at least the duration
-        return (millis() - lastStateChangeTime) > duration;
-    }
-
-    // The sensor is inactive
-    return false;
+    return isActive(duration, Sensor::MODE_LEADING_EDGE);
 }
 
-bool Sensor::isInactive()
+bool Sensor::isActive(const byte mode)
 {
-    return isInactive(100);
+    return isActive(100, mode);
 }
 
-bool Sensor::isInactive(int duration)
+bool Sensor::isActive(int duration, byte mode)
 {
-
-    if (state != DEPRESSED)
+    switch (mode)
     {
-        // True if the sensor has been inactive for at least the duration
-        return (millis() - lastStateChangeTime) > duration;
+    case Sensor::MODE_LEADING_EDGE:
+        // True if the sensor has been active for at least the duration.
+        // False if the sensor is not depressed or has not yet reached the `duration`.
+        return (state == DEPRESSED) ? (millis() - lastStateChangeTime) > duration : false;
+    case Sensor::MODE_BOTH_EDGE:
+        // True if the sensor has changed state, up until 500 ms later.
+        return lastStateChangeTime != 0 && (millis() - lastStateChangeTime) > duration && (millis() - lastStateChangeTime) < 500;
+    default:
+        return false;
     }
-
-    // The sensor is active
-    return false;
 }

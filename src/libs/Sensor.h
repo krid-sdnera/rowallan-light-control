@@ -1,6 +1,7 @@
 #ifndef Sensor_H
 #define Sensor_H
 #include <Arduino.h>
+
 class Sensor
 {
 
@@ -13,6 +14,10 @@ protected:
   unsigned long lastStateChangeTime = 0;
 
 public:
+  static const byte MODE_LEADING_EDGE = 1;
+  static const byte MODE_TRAILING_EDGE = 2;
+  static const byte MODE_BOTH_EDGE = 3;
+
   Sensor();
   virtual ~Sensor();
   virtual void init() = 0;
@@ -20,7 +25,7 @@ public:
   void update();
   bool isActive();
   bool isActive(int duration);
-  bool isInactive();
-  bool isInactive(int duration);
+  bool isActive(byte mode);
+  bool isActive(int duration, byte mode);
 };
 #endif
