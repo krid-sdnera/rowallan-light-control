@@ -19,8 +19,7 @@ I2CWrapper relayI2CBoard1(0, 0, 0);
 SensorI2C sensor11(&relayI2CBoard1, 1); // Male Toilet
 SensorI2C sensor12(&relayI2CBoard1, 2); // Female Toilet
 SensorI2C sensor13(&relayI2CBoard1, 3); // Shared Shower
-// SensorI2C sensor14(&relayI2CBoard1, 4); // Unused
-SensorGPIO sensorD7(7); // Day night detector
+SensorGPIO sensorD7(7);                 // Day night detector
 
 LightI2C light11(&relayI2CBoard1, 1); // Male Toilet
 LightI2C light12(&relayI2CBoard1, 2); // Female Toilet
