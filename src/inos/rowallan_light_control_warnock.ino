@@ -18,19 +18,19 @@
 I2CWrapper relayI2CBoard1(0, 0, 0);
 I2CWrapper relayI2CBoard2(1, 0, 0);
 
-SensorI2C sensor11(&relayI2CBoard1, 1);        // Kitchen
-SensorI2C sensor12(&relayI2CBoard1, 2);        // Kitchen Work
-SensorI2C sensor13(&relayI2CBoard1, 3);        // Kitchen Spot
-SensorI2C sensor14(&relayI2CBoard1, 4);        // Dining (Kitchen Button)
-SensorI2C sensor21(&relayI2CBoard2, 1);        // Covered (Kitchen Button)
-SensorI2C sensor22(&relayI2CBoard2, 2);        // Trough
-SensorI2C sensor23(&relayI2CBoard2, 3);        // BBQ Area
-SensorGPIO sensorD11(11);                      // Dining (Dining Button)
-SensorGPIO sensorD12(12);                      // Covered (Dining Button)
-SensorCombine sensorC1(&sensor14, &sensorD11); // Dining Combined
-SensorCombine sensorC2(&sensor21, &sensorD12); // Covered Combined
-SensorGPIO sensorD7(7);                        // Day night detector
-SensorI2CKeypad sensorKeypad();                // Kitchen Door Keypad
+SensorI2C sensor11(&relayI2CBoard1, 1);       // Kitchen
+SensorI2C sensor12(&relayI2CBoard1, 2);       // Kitchen Work
+SensorI2C sensor13(&relayI2CBoard1, 3);       // Kitchen Spot
+SensorI2C sensor14(&relayI2CBoard1, 4);       // Dining (Kitchen Button)
+SensorI2C sensor21(&relayI2CBoard2, 1);       // Covered (Kitchen Button)
+SensorI2C sensor22(&relayI2CBoard2, 2);       // Trough
+SensorI2C sensor23(&relayI2CBoard2, 3);       // BBQ Area
+SensorGPIO sensorD8(8);                       // Dining (Dining Button)
+SensorGPIO sensorD9(9);                       // Covered (Dining Button)
+SensorCombine sensorC1(&sensor14, &sensorD8); // Dining Combined
+SensorCombine sensorC2(&sensor21, &sensorD9); // Covered Combined
+SensorGPIO sensorD7(7);                       // Day night detector
+SensorI2CKeypad sensorKeypad();               // Kitchen Door Keypad
 
 LightI2C light11(&relayI2CBoard1, 1); // Kitchen
 LightI2C light12(&relayI2CBoard1, 2); // Kitchen Work
@@ -40,7 +40,7 @@ LightI2C light21(&relayI2CBoard2, 1); // Covered
 LightI2C light22(&relayI2CBoard2, 2); // Trough
 LightI2C light23(&relayI2CBoard2, 3); // BBQ Area
 LightI2C light24(&relayI2CBoard2, 4); // Kitchen Door Release
-LightGPIO lightD9(9);                 // Status Light
+LightGPIO lightD6(6);                 // Status Light
 
 // Set the durations for day, night, lateNight
 //      5 * 60 * 1000 =   300000 =  5 minutes
@@ -76,7 +76,7 @@ void setup()
 
     AppState::getInstance()->setDaylightSensor(&sensorD7);
     AppState::getInstance()->setLateNightTimer(&lateNightModeTimer);
-    AppState::getInstance()->setStatusIndicatorLight(&lightD9);
+    AppState::getInstance()->setStatusIndicatorLight(&lightD6);
     AppState::getInstance()->setStatusIndicatorTimer(&statusIndicatorTimer);
 
     relayI2CBoard1.init();
