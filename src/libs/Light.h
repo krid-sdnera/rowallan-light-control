@@ -6,7 +6,7 @@ class Light
 {
 
 private:
-  int flashTime;
+  unsigned long flashTime;
 
 protected:
   byte pin;
