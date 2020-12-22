@@ -33,10 +33,6 @@ public:
     void turnOffRelay(int relay);
     //Toggle Relay
     void toggleRelay(int relay);
-    //momentary relay
-    void momentaryRelay(int relay);
-    void momentaryRelay(int relay, int duration);
-    void momentaryOff();
 
     //Turn On all Relays
     void turnOnAllRelays();
@@ -54,17 +50,13 @@ public:
     int readInputStatus(int input);
     //Read status of all inputs
     int readAllInputs();
-    int relayTalk(String command);
     //User Accessible Variables
     //Whether or not the controller is ready to accept commands
     bool initialized;
-    bool publishInputEvents;
     int sendCommand(int reg, int cmd);
     int sendCommand(int reg);
 
 private:
-    bool firstInput = true;
-
     byte bitop(byte b1, byte b2, int op);
     void relayOp(int relay, int op);
     //internal use method for refreshing bank status variables
@@ -78,12 +70,9 @@ private:
     bool iosetCustom = false;
     int relayCount = 0;
 
-    int _momentaryRelay;
-
     int address = 0x20;
 
     int retrys = 0;
-    // Timer timer;
 };
 
 #endif
