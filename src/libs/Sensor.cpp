@@ -20,7 +20,7 @@ void Sensor::update()
         state = newReading;
         lastStateChangeTime = millis();
 
-        Serial.print("sensor update:state: ");
+        Serial.print(F("sensor update:state: "));
         Serial.println(state);
     }
     lastReading = newReading;

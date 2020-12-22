@@ -6,12 +6,12 @@ void SensorI2CKeypad::init()
 {
     if (keypad.begin() == false)
     {
-        Serial.println("Keypad does not appear to be connected. Please check wiring. Freezing...");
+        Serial.println(F("Keypad does not appear to be connected. Please check wiring. Freezing..."));
         while (1)
         {
         }
     }
-    Serial.print("Keypad Initialized. Firmware Version: ");
+    Serial.print(F("Keypad Initialized. Firmware Version: "));
     Serial.println(keypad.getVersion());
 
     // // Set up interrupt pin.
@@ -28,7 +28,7 @@ bool SensorI2CKeypad::getState()
     {
         return false;
     }
-    Serial.print("Got keypad data: ");
+    Serial.print(F("Got keypad data: "));
     Serial.println(keyGot);
 
     int n;
@@ -44,13 +44,13 @@ bool SensorI2CKeypad::getState()
     bool keysMatch = true;
     for (n = 0; n < 4; ++n)
     {
-        Serial.print("checking: ");
+        Serial.print(F("checking: "));
         Serial.print(n);
-        Serial.print(": ");
+        Serial.print(F(": "));
         Serial.print(keysExpected[n]);
-        Serial.print(" != ");
+        Serial.print(F(" != "));
         Serial.print(keysPressed[n]);
-        Serial.print(" = ");
+        Serial.print(F(" = "));
         Serial.println(keysExpected[n] != keysPressed[n]);
 
         if (keysExpected[n] != keysPressed[n])

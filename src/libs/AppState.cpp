@@ -67,7 +67,7 @@ void AppState::updateMode()
         // If the a night light is defined and off, turn it on.
         if (nightLight != 0 && !nightLight->isOn())
         {
-            Serial.println("night light update:on:NIGHT");
+            Serial.println(F("night light update:on:NIGHT"));
             nightLight->on();
         }
     }
@@ -80,7 +80,7 @@ void AppState::updateMode()
         // If the a night light is defined and on, turn it off.
         if (nightLight != 0 && nightLight->isOn())
         {
-            Serial.println("night light update:off:DAY");
+            Serial.println(F("night light update:off:DAY"));
             nightLight->off();
         }
     }
@@ -94,13 +94,13 @@ void AppState::updateStatusIndicator()
         // TODO: Check if there is at least one circuit in override mode.
         if (statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
         {
-            Serial.println("status light update:off:DAY");
+            Serial.println(F("status light update:off:DAY"));
             statusIndicatorLight->off();
             statusIndicatorTimer->start(5000);
         }
         if (!statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
         {
-            Serial.println("status light update:on:DAY");
+            Serial.println(F("status light update:on:DAY"));
             statusIndicatorLight->on();
             statusIndicatorTimer->start(1000);
         }
@@ -110,13 +110,13 @@ void AppState::updateStatusIndicator()
     {
         if (statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
         {
-            Serial.println("status light update:off:NIGHT");
+            Serial.println(F("status light update:off:NIGHT"));
             statusIndicatorLight->off();
             statusIndicatorTimer->start(2000);
         }
         if (!statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
         {
-            Serial.println("status light update:on:NIGHT");
+            Serial.println(F("status light update:on:NIGHT"));
             statusIndicatorLight->on();
             statusIndicatorTimer->start(2000);
         }
@@ -126,13 +126,13 @@ void AppState::updateStatusIndicator()
     {
         if (statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
         {
-            Serial.println("status light update:off:LATENIGHT");
+            Serial.println(F("status light update:off:LATENIGHT"));
             statusIndicatorLight->off();
             statusIndicatorTimer->start(4000);
         }
         if (!statusIndicatorLight->isOn() && statusIndicatorTimer->isExpired())
         {
-            Serial.println("status light update:on:LATENIGHT");
+            Serial.println(F("status light update:on:LATENIGHT"));
             statusIndicatorLight->on();
             statusIndicatorTimer->start(4000);
         }

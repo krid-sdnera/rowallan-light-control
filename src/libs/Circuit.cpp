@@ -22,7 +22,7 @@ void Circuit::update()
         {
             timer->start(3000);
             light->on();
-            Serial.println("circuit update:on:keypad");
+            Serial.println(F("circuit update:on:keypad"));
         }
 
         if (light->isOn())
@@ -32,7 +32,7 @@ void Circuit::update()
             if (timer->isExpired())
             {
                 light->off();
-                Serial.println("circuit update:off:keypad");
+                Serial.println(F("circuit update:off:keypad"));
             }
         }
         return;
@@ -56,17 +56,17 @@ void Circuit::update()
         if (timer->start() == 0)
         {
             light->off();
-            Serial.println("circuit update:off:duration:0");
+            Serial.println(F("circuit update:off:duration:0"));
         }
         else if (circuitMode == Circuit::MODE_TOGGLE)
         {
             light->toggle();
-            Serial.println("circuit update:toggled");
+            Serial.println(F("circuit update:toggled"));
         }
         else if (!light->isOn() && circuitMode == Circuit::MODE_ON)
         {
             light->on();
-            Serial.println("circuit update:on");
+            Serial.println(F("circuit update:on"));
         }
 
         // Mark this active state event as processed.
@@ -98,7 +98,7 @@ void Circuit::update()
         if (timer->isExpired())
         {
             light->off();
-            Serial.println("circuit update:off");
+            Serial.println(F("circuit update:off"));
         }
 
         // FLash the circuit if the timer is almost expired
@@ -106,7 +106,7 @@ void Circuit::update()
         {
             processedAlmostExpiredEvent = true;
             light->flash();
-            Serial.println("circuit update:flash");
+            Serial.println(F("circuit update:flash"));
         }
     }
 }

@@ -72,7 +72,7 @@ Circuit circuit7(&sensor23, &light23, &timer7, Circuit::MODE_TOGGLE, 2000); // B
 void setup()
 {
     Serial.begin(9600);
-    Serial.println("initialising");
+    Serial.println(F("initialising"));
 
     AppState::getInstance()->setDaylightSensor(&sensorD7);
     AppState::getInstance()->setLateNightTimer(&lateNightModeTimer);
@@ -90,7 +90,7 @@ void setup()
     circuit7.init();
     // circuit8.init();
 
-    Serial.println("initialisation done");
+    Serial.println(F("initialisation done"));
 }
 
 void loop()

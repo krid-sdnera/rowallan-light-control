@@ -69,20 +69,20 @@ void KEYPAD::setI2CAddress(uint8_t newAddress)
 
     if (begin(Wire, newAddress) == true)
     {
-      Serial.print("Address: 0x");
+      Serial.print(F("Address: 0x"));
       if (newAddress < 16)
-        Serial.print("0");
+        Serial.print(F("0"));
       Serial.print(newAddress, HEX); //Prints out new Address value in HEX
     }
     else
     {
-      Serial.println("Address Change Failure");
+      Serial.println(F("Address Change Failure"));
     }
   }
   else
   {
     Serial.println();
-    Serial.println("ERROR: Address outside 8-119 range");
+    Serial.println(F("ERROR: Address outside 8-119 range"));
   }
 }
 

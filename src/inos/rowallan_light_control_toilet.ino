@@ -42,7 +42,7 @@ Circuit circuit3(&sensor13, &light13, &timer3, Circuit::MODE_ON, 100);
 void setup()
 {
     Serial.begin(9600);
-    Serial.println("initialising");
+    Serial.println(F("initialising"));
 
     AppState::getInstance()->setDaylightSensor(&sensorD7);
     AppState::getInstance()->setLateNightTimer(&lateNightModeTimer);
@@ -55,7 +55,7 @@ void setup()
     circuit2.init();
     circuit3.init();
 
-    Serial.println("initialisation done");
+    Serial.println(F("initialisation done"));
 }
 
 void loop()
