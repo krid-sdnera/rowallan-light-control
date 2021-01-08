@@ -1,4 +1,7 @@
 #include "Arduino.h"
+#include <SPI.h>
+#include <EthernetServer.h>
+#include <Ethernet.h>
 
 #include "I2CWrapper.h"
 #include "AppState.h"
@@ -13,6 +16,7 @@
 #include "TimerModeAware.h"
 
 #include "Circuit.h"
+#include "RestServer.h"
 
 // Define the two relay boards
 I2CWrapper relayI2CBoard1(0, 0, 0);
@@ -69,6 +73,11 @@ Circuit circuit6(&sensor22, &light22, &timer6, Circuit::MODE_ON, 100);      // T
 Circuit circuit7(&sensor23, &light23, &timer7, Circuit::MODE_TOGGLE, 2000); // BBQ Area
 // Circuit circuit8(&sensorKeypad, &light24, &timer8, Circuit::MODE_KEYPAD, 0); // Kitchen Door Keypad and Release
 
+byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x71};
+byte ip[] = {10, 90, 10, 71};
+EthernetServer server(80);
+RestServer api(&server);
+
 void setup()
 {
     Serial.begin(9600);
@@ -78,6 +87,8 @@ void setup()
     AppState::getInstance()->setLateNightTimer(&lateNightModeTimer);
     AppState::getInstance()->setStatusIndicatorLight(&lightD6);
     AppState::getInstance()->setStatusIndicatorTimer(&statusIndicatorTimer);
+
+    api.begin(mac, ip);
 
     relayI2CBoard1.init();
     relayI2CBoard2.init();
@@ -95,6 +106,8 @@ void setup()
 
 void loop()
 {
+    api.serve();
+
     AppState::getInstance()->updateMode();
     AppState::getInstance()->updateStatusIndicator();
 

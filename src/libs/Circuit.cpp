@@ -110,3 +110,43 @@ void Circuit::update()
         }
     }
 }
+
+bool Circuit::handleApi(char *action, EthernetClient *client)
+{
+    if (action == nullptr)
+    {
+        return apiReport(client);
+    }
+    else if (strcmp(action, "on") == 0)
+    {
+        if (timer->start() != 0)
+        {
+            light->on();
+            Serial.println(F("circuit api:update:on"));
+        }
+
+        return apiReport(client);
+    }
+    else if (strcmp(action, "off") == 0)
+    {
+        light->off();
+        Serial.println(F("circuit api:update:off"));
+
+        return apiReport(client);
+    }
+    return false;
+}
+
+bool Circuit::apiReport(EthernetClient *client)
+{
+    // Usage notes for snprintf_P and PSTR from:
+    // https://cpp4arduino.com/2020/02/07/how-to-format-strings-without-the-string-class.html
+
+    char s[32];
+    snprintf_P(s, sizeof(s), PSTR("{\"s\":%s,\"l\":%s}"),
+               (sensor->isActive() ? Circuit::StrTrue : Circuit::StrFalse),
+               (light->isOn() ? Circuit::StrTrue : Circuit::StrFalse));
+
+    client->println(s);
+    return true;
+}

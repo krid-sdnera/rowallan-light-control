@@ -1,4 +1,7 @@
 #include "Arduino.h"
+#include <SPI.h>
+#include <EthernetServer.h>
+#include <Ethernet.h>
 
 #include "I2CWrapper.h"
 #include "AppState.h"
@@ -12,6 +15,7 @@
 #include "TimerModeAware.h"
 
 #include "Circuit.h"
+#include "RestServer.h"
 
 // Define the two relay boards
 I2CWrapper relayI2CBoard1(0, 0, 0);
@@ -39,6 +43,11 @@ Circuit circuit1(&sensor11, &light11, &timer1, Circuit::MODE_ON, 100);
 Circuit circuit2(&sensor12, &light12, &timer2, Circuit::MODE_ON, 100);
 Circuit circuit3(&sensor13, &light13, &timer3, Circuit::MODE_ON, 100);
 
+byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x72};
+byte ip[] = {10, 90, 10, 72};
+EthernetServer server(80);
+RestServer api(&server);
+
 void setup()
 {
     Serial.begin(9600);
@@ -50,6 +59,8 @@ void setup()
     AppState::getInstance()->setStatusIndicatorLight(&lightD9);
     AppState::getInstance()->setStatusIndicatorTimer(&statusIndicatorTimer);
 
+    api.begin(mac, ip);
+
     relayI2CBoard1.init();
     circuit1.init();
     circuit2.init();
@@ -60,6 +71,8 @@ void setup()
 
 void loop()
 {
+    api.serve();
+
     AppState::getInstance()->updateMode();
     AppState::getInstance()->updateStatusIndicator();
 
